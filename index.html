@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>JavaScript Kit Pop Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+
+            background-image: url('movie_quiz.jpeg');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed; 
+        }
+
+        .quiz-container {
+            max-width: 600px;
+            margin: auto;
+            background-color: lavender; /* Changed box color */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .quiz-title {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .question-box {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+            width: 100%;
+            box-sizing: border-box;
+            resize: none;
+            font-size: 24px;
+        }
+        .actions {
+            text-align: center;
+            margin-top: 20px;
+        }
+        input[type="text"], select {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0 15px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        input[type="button"] {
+            background-color: #8a2be2; /* Lavender */
+            color: white;
+            padding: 10px 15px;
+            margin: 5px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        input[type="button"]:hover {
+            background-color: #7b1ec9; /* Darker lavender */
+        }
+        .start-over {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .credit {
+            text-align: center;
+            font-size: 12px;
+        }
+        .solution, .response {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="quiz-container">
+    <div class="quiz-title">JavaScript Kit Pop Quiz</div>
+    <form method="POST" name="instantquiz">
+        <textarea rows="10" name="thequestion" class="question-box" wrap="virtual"></textarea>
+        <div class="response"> <!-- Swapped places -->
+            <strong>Your response:</strong> 
+            <select name="theresponse" size="1" onChange="responses()">
+                <option value="-----">----</option>
+                <option value="a">a</option>
+                <option value="b">b</option>
+                <option value="c">c</option>
+                <option value="d">d</option>
+            </select>
+        </div>
+        <div class="solution">
+            <strong>Solution: </strong><input type="text" name="thesolution" size="35">
+        </div>
+        <div class="actions">
+            <input type="button" value="<< Back" name="B1" onClick="if (whichone>1 ){whichone--;generatequestions()}">
+            <input type="button" value="Next >>" name="B2" onClick="if (whichone<=total){whichone++;generatequestions()}"><br>
+            <a href="#" class="start-over" onClick="whichone=1;generatequestions();return false">Start Over</a> 
+            <input type="checkbox" name="cmode" value="ON">Cheat Mode
+        </div>
+        <div class="credit">
+            <small>This free quiz script provided by</small><br> 
+            <small><a href="http://javascriptkit.com">JavaScript Kit</a></small>
+        </div>
+    </form>
+</div>
+<script src="quiz.js">
+
+/*
+Instant-grading multiple choice quiz-
+By JavaScript Kit (www.javascriptkit.com)
+Over 200+ free scripts here!
+*/
+</script>
+<script language="JavaScript1.1">
+var whichone=1
+var tempmn=document.instantquiz.thequestion
+function generatequestions(){
+document.instantquiz.theresponse.selectedIndex=0
+if (!document.instantquiz.cmode.checked||whichone>=total+1||whichone<=0)
+document.instantquiz.thesolution.value=''
+if (whichone>=total+1)
+tempmn.value="End of quiz"
+else{
+tempmn.value=whichone+")"+question[whichone]+"\n\n"+"a)"+eval('choice'+whichone+'[1]')+"\n"+"b)"+eval('choice'+whichone+'[2]')+"\n"+"c)"+eval('choice'+whichone+'[3]')+"\n"+"d)"+eval('choice'+whichone+'[4]')
+if (document.instantquiz.cmode.checked)
+document.instantquiz.thesolution.value=solution[whichone]
+}
+}
+
+function responses(){
+var temp2=document.instantquiz.theresponse
+var temp3=temp2.options[temp2.selectedIndex].text
+if (temp3!=solution[whichone]&&temp2.selectedIndex!=0)
+document.instantquiz.thesolution.value="Sorry, the correct answer is "+solution[whichone]
+else if(temp2.selectedIndex!=0)
+document.instantquiz.thesolution.value=compliments[Math.round(Math.random()*compliments.length-1)]
+}
+
+generatequestions()
+</script>
+</body>
+</html>
